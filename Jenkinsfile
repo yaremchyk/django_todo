@@ -1,5 +1,5 @@
 pipeline {
-
+    agent {'ci-server'}
     parameters {
         booleanParam(name: 'autoApprove', defaultValue: false, description: 'Automatically run apply after generating plan?')
     } 
@@ -25,21 +25,21 @@ pipeline {
    
         stage('Build&Tag') {
             steps {           
-                        sh 'docker build -t app-repo .'
-                        sh 'docker tag app-repo:latest 025389115636.dkr.ecr.eu-north-1.amazonaws.com/app-repo:latest' 
+                        sh 'docker build -t dev/demo3 .'
+                        sh 'docker tag dev/demo3:latest 025389115636.dkr.ecr.eu-north-1.amazonaws.com/dev/demo3:latest' 
             }
         }
         stage("Pushing to ECR"){
             steps{
                     echo "Pushing to ECR..."
-                    sh "docker push 025389115636.dkr.ecr.eu-north-1.amazonaws.com/app-repo:latest"
+                    sh "docker push 025389115636.dkr.ecr.eu-north-1.amazonaws.com/dev/demo3:latest"
             }
         }
-        stage('Update ECS'){
-            steps{
-                sh 'aws ecs update-service --region eu-north-1 --cluster app-cluster --service demo-2-service --force-new-deployment'
-            }
-        }
+        // stage('Update ECS'){
+        //     steps{
+        //         sh 'aws ecs update-service --region eu-north-1 --cluster dev-ecs-cluster-staging --service dev-ecs-service-staging --force-new-deployment'
+        //     }
+        // }
         
     }
 }
