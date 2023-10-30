@@ -32,11 +32,16 @@ pipeline {
                     sh "docker push 025389115636.dkr.ecr.us-east-1.amazonaws.com/dev/demo3:latest"
             }
         }
-        // stage('Update ECS'){
-        //     steps{
-        //         sh 'aws ecs update-service --region eu-north-1 --cluster dev-ecs-cluster-staging --service dev-ecs-service-staging --force-new-deployment'
-        //     }
-        // }
+        stage('Update ECS'){
+            steps{
+                sh 'aws ecs update-service --region eu-north-1 --cluster dev-ecs-cluster-staging --service dev-ecs-service-staging --force-new-deployment'
+            }
+        }
+        stage('Clear space'){
+            steps{
+                sh 'docker system prune --all --force --volumes'
+            }
+        }
         
     }
 }
