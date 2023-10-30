@@ -22,7 +22,7 @@ pipeline {
    
         stage('Build&Tag') {
             steps {           
-                        sh 'docker build -t app-repo .'
+                        sh 'docker build -t dev/demo3 .'
                         sh 'docker tag dev/demo3:latest 025389115636.dkr.ecr.us-east-1.amazonaws.com/dev/demo3:latest' 
             }
         }
