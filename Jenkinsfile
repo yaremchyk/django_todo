@@ -15,21 +15,21 @@ pipeline {
         stage("ECR Authentication"){
             steps{
                 echo "Logging to ECR.."
-                sh "aws ecr get-login-password --region eu-north-1 | docker login --username AWS --password-stdin 025389115636.dkr.ecr.eu-north-1.amazonaws.com"
+                sh "aws ecr get-login-password --region eu-north-1 | sudo docker login --username AWS --password-stdin 025389115636.dkr.ecr.eu-north-1.amazonaws.com"
                 echo "--------------------------OK--------------------------"
             }
         }
    
         stage('Build&Tag') {
             steps {           
-                        sh 'docker build -t dev/demo3 .'
-                        sh 'docker tag dev/demo3:latest 025389115636.dkr.ecr.eu-north-1.amazonaws.com/dev/demo3:latest' 
+                        sh 'sudo docker build -t dev/demo3 .'
+                        sh 'sudo docker tag dev/demo3:latest 025389115636.dkr.ecr.eu-north-1.amazonaws.com/dev/demo3:latest' 
             }
         }
         stage("Pushing to ECR"){
             steps{
                     echo "Pushing to ECR..."
-                    sh "docker push 025389115636.dkr.ecr.eu-north-1.amazonaws.com/dev/demo3:latest"
+                    sh "sudo docker push 025389115636.dkr.ecr.eu-north-1.amazonaws.com/dev/demo3:latest"
             }
         }
         stage('Update EKS'){
@@ -40,7 +40,7 @@ pipeline {
         }
         stage('Clear space'){
             steps{
-                sh 'docker system prune --all --force --volumes'
+                sh 'sudo docker system prune --all --force --volumes'
             }
         }
         
