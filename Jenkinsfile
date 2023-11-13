@@ -1,5 +1,5 @@
 pipeline {
-    agent { node { label 'ci-server' } }
+    agent { node { label 'master' } }
     parameters {
         booleanParam(name: 'autoApprove', defaultValue: false, description: 'Automatically run apply after generating plan?')
     } 
