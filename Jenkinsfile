@@ -32,12 +32,7 @@ pipeline {
                     sh "sudo docker push 025389115636.dkr.ecr.eu-north-1.amazonaws.com/dev/demo3:latest"
             }
         }
-        stage('Update EKS'){
-            steps{
-                sh "aws eks update-kubeconfig --name demo-cluster"
-                sh "kubectl rollout restart deployment todo-deployment"
-            }
-        }
+
         stage('Clear space'){
             steps{
                 sh 'sudo docker system prune --all --force --volumes'
